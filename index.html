@@ -8,8 +8,48 @@
     />
     <title>Document</title>
     <link rel="stylesheet" href="./style.css" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v6.4.2/css/all.css"
+    />
   </head>
   <body>
+    <div class="weather-wrapper">
+      <div class="weather__header">
+        <input class="weather__input" type="text" placeholder="Search" />
+        <button class="weather__search-button" type="button">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </div>
+      <div class="weather__body">
+        <img
+          class="weather__image"
+          src="./images/clear.png"
+          width="140"
+          height="140"
+        />
+        <div class="weather__info">
+          <p class="weather__info-temp">22°C</p>
+          <p class="weather__info-city">Chisinau</p>
+        </div>
+      </div>
+      <div class="weather__footer">
+        <div class="weather__additional-info">
+          <i class="fa-solid fa-water weather__humidity-icon"></i>
+          <div class="weather__humidity">
+            <p class="weather__humidity-value">48%</p>
+            <p class="weather__humidity-text">Humidity</p>
+          </div>
+        </div>
+        <div class="weather__additional-info">
+          <i class="fa-solid fa-wind weather__wind-icon"></i>
+          <div class="weather__wind">
+            <p class="weather__windSpeed-value">3.09 km/h</p>
+            <p class="weather__windSpeed-text">Wind Speed</p>
+          </div>
+        </div>
+      </div>
+    </div>
     <script type="module" src="./main.js"></script>
   </body>
 </html>

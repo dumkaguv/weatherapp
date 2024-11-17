@@ -8,34 +8,25 @@ export class Weather {
     this.weatherData = [];
   }
 
-  getWeatherData(city) {
-    return this.fetchWeatherData(city)
-      .then(() => this.parseWeatherData())
-      .catch((error) => {
-        console.error(error);
-        return {};
-      });
+  async getWeatherData(city) {
+    await this.fetchWeatherData(city);
+    return this.parseWeatherData(this.weatherData);
   }
 
-  fetchWeatherData(city) {
-    return new Promise((resolve, reject) => {
-      let baseUrlWithEndPoints = this.getResponseTemplate(city);
-      fetch(baseUrlWithEndPoints)
-        .then((data) => {
-          if (!data.ok) {
-            reject(`HTTP ошибка: ${data.status}`);
-            return;
-          }
-          return data.json();
-        })
-        .then((jsonData) => {
-          this.weatherData.push(jsonData);
-          resolve();
-        })
-        .catch((error) => {
-          reject(`Ошибка при получении данных о погоде: ${error.message}`);
-        });
-    });
+  async fetchWeatherData(city) {
+    let baseUrlWithEndPoints = this.getResponseTemplate(city);
+    try {
+      let response = await fetch(baseUrlWithEndPoints);
+      if (!response.ok) {
+        console.log("HTTP ошибка: ", response.status);
+        return;
+      }
+      let data = await response.json();
+      this.weatherData.push(data);
+      //console.log(this.weatherData);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   getResponseTemplate(city) {
@@ -51,6 +42,8 @@ export class Weather {
       pressure: data.main.pressure,
       humidity: data.main.humidity,
       wind: data.wind.speed,
+      icon: data.weather[0].main,
+      city: data.name,
     };
   }
 }

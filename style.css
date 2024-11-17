@@ -1,0 +1,252 @@
+/**
+  Нормализация блочной модели
+ */
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+/**
+    Убираем внутренние отступы слева тегам списков,
+    у которых есть атрибут class
+   */
+:where(ul, ol):where([class]) {
+  padding-left: 0;
+}
+
+/**
+    Убираем внешние отступы body и двум другим тегам,
+    у которых есть атрибут class
+   */
+body,
+:where(blockquote, figure):where([class]) {
+  margin: 0;
+}
+
+/**
+    Убираем внешние отступы вертикали нужным тегам,
+    у которых есть атрибут class
+   */
+:where(h1, h2, h3, h4, h5, h6, p, ul, ol, dl) {
+  margin-block: 0;
+}
+
+:where(dd[class]) {
+  margin-left: 0;
+}
+
+:where(fieldset[class]) {
+  margin-left: 0;
+  padding: 0;
+  border: none;
+}
+
+/**
+    Убираем стандартный маркер маркированному списку,
+    у которого есть атрибут class
+   */
+:where(ul[class]) {
+  list-style: none;
+}
+
+:where(address[class]) {
+  font-style: normal;
+}
+
+/**
+    Обнуляем вертикальные внешние отступы параграфа,
+    объявляем локальную переменную для внешнего отступа вниз,
+    чтобы избежать взаимодействие с более сложным селектором
+   */
+p {
+  --paragraphMarginBottom: 24px;
+
+  margin-block: 0;
+}
+
+/**
+    Внешний отступ вниз для параграфа без атрибута class,
+    который расположен не последним среди своих соседних элементов
+   */
+p:where(:not([class]):not(:last-child)) {
+  margin-bottom: var(--paragraphMarginBottom);
+}
+
+/**
+    Упрощаем работу с изображениями
+   */
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/**
+    Наследуем свойства шрифт для полей ввода
+   */
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+html {
+  /**
+      Пригодится в большинстве ситуаций
+      (когда, например, нужно будет "прижать" футер к низу сайта)
+     */
+  height: 100%;
+}
+
+/**
+    Плавный скролл
+   */
+html,
+:has(:target) {
+  scroll-behavior: smooth;
+}
+
+body {
+  /**
+      Пригодится в большинстве ситуаций
+      (когда, например, нужно будет "прижать" футер к низу сайта)
+     */
+  min-height: 100%;
+  /**
+      Унифицированный интерлиньяж
+     */
+  line-height: 1.5;
+}
+
+/**
+    Приводим к единому цвету svg-элементы
+   */
+svg *[fill] {
+  fill: currentColor;
+}
+svg *[stroke] {
+  stroke: currentColor;
+}
+
+/**
+    Чиним баг задержки смены цвета при взаимодействии с svg-элементами
+   */
+svg * {
+  transition-property: fill, stroke;
+}
+
+/**
+    Удаляем все анимации и переходы для людей,
+    которые предпочитают их не использовать
+   */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  background-color: rgba(97, 128, 102, 0.798);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.weather-wrapper {
+  background: rgb(9, 115, 121);
+  background: linear-gradient(
+    0deg,
+    rgba(9, 115, 121, 1) 0%,
+    rgba(47, 219, 254, 0.777) 61%
+  );
+  width: 470px;
+  height: 580px;
+  border-radius: 20px;
+  color: white;
+}
+
+.weather__header {
+  display: flex;
+  justify-content: center;
+  column-gap: 15px;
+  padding: 35px;
+}
+
+.weather__input {
+  border-radius: 21px;
+  border: none;
+  flex: 1;
+  padding: 10px;
+  box-shadow: 2px 5px 10px rgba(40, 40, 40, 0.5);
+  transition-duration: 0.2s;
+}
+
+.weather__input:hover {
+  transform: scale(1.05);
+}
+
+.weather__search-button {
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  aspect-ratio: 1;
+  transition-duration: 0.2s;
+  cursor: pointer;
+}
+
+.weather__search-button:hover {
+  transform: scale(1.1);
+}
+
+.weather__body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 15px;
+}
+
+.weather__info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+}
+
+.weather__info-temp {
+  font-weight: 550;
+  font-size: 60px;
+}
+
+.weather__footer {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 30px;
+  margin-top: 35px;
+  padding-inline: 50px;
+  font-size: 24px;
+}
+
+.weather__additional-info {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.weather__humidity-icon,
+.weather__wind-icon {
+  font-size: 48px;
+}
+
+.weather__windSpeed-value,
+.weather__humidity-value {
+  text-align: center;
+  font-size: 28px;
+}
