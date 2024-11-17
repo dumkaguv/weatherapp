@@ -9,6 +9,15 @@ export class Weather {
   }
 
   getWeatherData(city) {
+    return this.fetchWeatherData(city)
+      .then(() => this.parseWeatherData())
+      .catch((error) => {
+        console.error(error);
+        return {};
+      });
+  }
+
+  fetchWeatherData(city) {
     return new Promise((resolve, reject) => {
       let baseUrlWithEndPoints = this.getResponseTemplate(city);
       fetch(baseUrlWithEndPoints)
@@ -21,7 +30,7 @@ export class Weather {
         })
         .then((jsonData) => {
           this.weatherData.push(jsonData);
-          resolve(this.parseWeatherData());
+          resolve();
         })
         .catch((error) => {
           reject(`Ошибка при получении данных о погоде: ${error.message}`);
@@ -30,7 +39,7 @@ export class Weather {
   }
 
   getResponseTemplate(city) {
-    return `${this.baseUrl}q=${city}&appid=${this.apiKey}`;
+    return `${this.baseUrl}q=${city}&units=metric&appid=${this.apiKey}`;
   }
 
   parseWeatherData() {
