@@ -23,7 +23,7 @@ export class Weather {
       }
       let data = await response.json();
       this.weatherData.push(data);
-
+      //console.log(this.weatherData);
     } catch (error) {
       console.log(error);
     }
@@ -42,6 +42,8 @@ export class Weather {
       pressure: data.main.pressure,
       humidity: data.main.humidity,
       wind: data.wind.speed,
+      icon: data.weather[0].main,
+      city: data.name,
     };
   }
 }
