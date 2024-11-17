@@ -13,25 +13,20 @@ export class Weather {
     return this.parseWeatherData(this.weatherData);
   }
 
-  fetchWeatherData(city) {
-    return new Promise((resolve, reject) => {
-      let baseUrlWithEndPoints = this.getResponseTemplate(city);
-      fetch(baseUrlWithEndPoints)
-        .then((data) => {
-          if (!data.ok) {
-            reject(`HTTP ошибка: ${data.status}`);
-            return;
-          }
-          return data.json();
-        })
-        .then((jsonData) => {
-          this.weatherData.push(jsonData);
-          resolve();
-        })
-        .catch((error) => {
-          reject(`Ошибка при получении данных о погоде: ${error.message}`);
-        });
-    });
+  async fetchWeatherData(city) {
+    let baseUrlWithEndPoints = this.getResponseTemplate(city);
+    try {
+      let response = await fetch(baseUrlWithEndPoints);
+      if (!response.ok) {
+        console.log("HTTP ошибка: ", response.status);
+        return;
+      }
+      let data = await response.json();
+      this.weatherData.push(data);
+
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   getResponseTemplate(city) {
