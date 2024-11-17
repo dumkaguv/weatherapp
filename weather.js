@@ -8,13 +8,9 @@ export class Weather {
     this.weatherData = [];
   }
 
-  getWeatherData(city) {
-    return this.fetchWeatherData(city)
-      .then(() => this.parseWeatherData())
-      .catch((error) => {
-        console.error(error);
-        return {};
-      });
+  async getWeatherData(city) {
+    await this.fetchWeatherData(city);
+    return this.parseWeatherData(this.weatherData);
   }
 
   fetchWeatherData(city) {
