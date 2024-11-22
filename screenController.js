@@ -1,19 +1,35 @@
-import { Weather } from "./weather.js";
+import Weather from "./weather.js";
+import UserInfo from "./userInfo.js";
 
-export class ScreenController {
-  constructor(apikey) {
-    this.apiKey = apikey;
+export default class ScreenController {
+  constructor(apiKeyWeather, apiKeyIP) {
+    this.apiKeyWeather = apiKeyWeather;
+    this.apiKeyIP = apiKeyIP;
+    this.renderInitialValues();
+    this.clickHandler();
+  }
+
+  async getCityByIP() {
+    const userInfo = new UserInfo(this.apiKeyIP);
+    const city = await userInfo.getUserCityByIP();
+    return city;
   }
 
   getCity() {
     const city = document.querySelector(".weather__input");
-    if (city.value.length === 0) return "Chisinau";
+    if (city.value.length === 0) return;
     return city.value;
   }
 
+  async renderInitialValues() {
+    await this.renderValues();
+  }
+
   async getWeatherData() {
-    const weather = new Weather(this.apiKey);
-    const city = this.getCity();
+    const weather = new Weather(this.apiKeyWeather, this.apiKeyIP);
+    const city = this.getCity()
+      ? this.getCity()
+      : await this.getCityByIP();
     const weatherData = await weather.getWeatherData(city);
     return weatherData;
   }
