@@ -3,14 +3,11 @@ import UserInfo from "./userInfo.js";
 export default class Weather {
   constructor(
     apiKeyWeather,
-    apiKeyIP,
     baseUrl = "https://api.openweathermap.org/data/2.5/weather?"
   ) {
     this.apiKeyWeather = apiKeyWeather;
-    this.apiKeyIP = apiKeyIP;
     this.baseUrl = baseUrl;
     this.weatherData = [];
-    //this.getInitialData();
   }
 
   async getWeatherData(city) {
@@ -32,12 +29,6 @@ export default class Weather {
       console.log(error);
     }
   }
-
-  //async getInitialData() {
-    //const userInfo = new UserInfo(this.apiKeyIP);
-    //const city = await userInfo.getUserCityByIP();  
-    //await this.fetchWeatherData(city)
-  //}
 
   getResponseTemplate(city) {
     return `${this.baseUrl}q=${city}&units=metric&appid=${this.apiKeyWeather}`;

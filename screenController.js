@@ -1,21 +1,20 @@
 import Weather from "./weather.js";
-import UserInfo from "./userInfo.js";
 
 export default class ScreenController {
-  constructor(apiKeyWeather, apiKeyIP) {
+  constructor(apiKeyWeather, userInfo, loadingAnimation) {
     this.apiKeyWeather = apiKeyWeather;
-    this.apiKeyIP = apiKeyIP;
+    this.userInfo = userInfo;
+    this.loadingAnimation = loadingAnimation;
+
     this.renderInitialValues();
     this.clickHandler();
   }
 
   async getCityByIP() {
-    const userInfo = new UserInfo(this.apiKeyIP);
-    const city = await userInfo.getUserCityByIP();
-    return city;
+    return await this.userInfo.getUserCityByIP();
   }
 
-  getCity() {
+  getCityByInput() {
     const city = document.querySelector(".weather__input");
     if (city.value.length === 0) return;
     return city.value;
@@ -26,22 +25,21 @@ export default class ScreenController {
   }
 
   async getWeatherData() {
-    const weather = new Weather(this.apiKeyWeather, this.apiKeyIP);
-    const city = this.getCity()
-      ? this.getCity()
-      : await this.getCityByIP();
+    const weather = new Weather(this.apiKeyWeather);
+    const city = this.getCityByInput() || (await this.getCityByIP());
     const weatherData = await weather.getWeatherData(city);
     return weatherData;
   }
 
   clickHandler() {
     const searchButton = document.querySelector(".weather__search-button");
-    searchButton.addEventListener("click", () => {
-      this.renderValues();
-    });
+    searchButton.addEventListener("click", () => this.renderValues());
   }
 
   async renderValues() {
+    const weatherWrapper = ".weather-wrapper";
+    this.loadingAnimation.show(weatherWrapper);
+
     const image = document.querySelector(".weather__image");
     const temperature = document.querySelector(".weather__info-temp");
     const city = document.querySelector(".weather__info-city");
@@ -62,5 +60,7 @@ export default class ScreenController {
     city.textContent = cityVal;
     humidity.textContent = `${humidityVal}%`;
     windSpeed.textContent = `${windSpeedVal} km/h`;
+
+    this.loadingAnimation.hide(weatherWrapper);
   }
 }

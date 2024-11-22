@@ -250,3 +250,45 @@ body {
   text-align: center;
   font-size: 28px;
 }
+
+.loading-element {
+  position: relative;
+}
+
+.loading-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 200px;
+  color: rgb(247, 190, 116);
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  position: absolute;
+  backdrop-filter: blur(2px);
+}
+
+.loading-dot {
+  animation: bounce 1.2s infinite ease-in-out;
+}
+
+.loading-dot:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.loading-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-20px);
+  }
+}
