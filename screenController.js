@@ -38,29 +38,45 @@ export default class ScreenController {
 
   async renderValues() {
     const weatherWrapper = ".weather-wrapper";
+    const weatherInputDiv = document.querySelector(".weather__input");
+    weatherInputDiv.placeholder = "Search";
+
     this.loadingAnimation.show(weatherWrapper);
 
-    const image = document.querySelector(".weather__image");
-    const temperature = document.querySelector(".weather__info-temp");
-    const city = document.querySelector(".weather__info-city");
-    const humidity = document.querySelector(".weather__humidity-value");
-    const windSpeed = document.querySelector(".weather__windSpeed-value");
+    try {
+      const data = await this.getWeatherData();
 
-    const data = await this.getWeatherData();
-    const {
-      temperature: temperatureVal,
-      humidity: humidityVal,
-      wind: windSpeedVal,
-      icon: imageVal,
-      city: cityVal,
-    } = data;
+      const image = document.querySelector(".weather__image");
+      const temperature = document.querySelector(".weather__info-temp");
+      const city = document.querySelector(".weather__info-city");
+      const humidity = document.querySelector(".weather__humidity-value");
+      const windSpeed = document.querySelector(
+        ".weather__windSpeed-value"
+      );
 
-    image.src = `./images/${imageVal.toLowerCase()}.png`;
-    temperature.textContent = `${temperatureVal}°C`;
-    city.textContent = cityVal;
-    humidity.textContent = `${humidityVal}%`;
-    windSpeed.textContent = `${windSpeedVal} km/h`;
+      const {
+        temperature: temperatureVal,
+        humidity: humidityVal,
+        wind: windSpeedVal,
+        icon: imageVal,
+        city: cityVal,
+      } = data;
 
-    this.loadingAnimation.hide(weatherWrapper);
+      image.src = `./images/${imageVal.toLowerCase()}.png`;
+      temperature.textContent = `${temperatureVal}°C`;
+      city.textContent = cityVal;
+      humidity.textContent = `${humidityVal}%`;
+      windSpeed.textContent = `${windSpeedVal} km/h`;
+    } catch (error) {
+      this.renderError();
+    } finally {
+      this.loadingAnimation.hide(weatherWrapper);
+    }
+  }
+
+  renderError() {
+    const weatherInputDiv = document.querySelector(".weather__input");
+    weatherInputDiv.value = "";
+    weatherInputDiv.placeholder = "Город был введён неверно!";
   }
 }

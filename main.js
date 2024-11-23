@@ -7,4 +7,8 @@ const apiKeyIP = "1ad9bf706a15a3";
 
 const userInfo = new UserInfo(apiKeyIP);
 const loadingAnimation = new LoadingAnimation();
-const screenController = new ScreenController(apiKeyWeather, userInfo, loadingAnimation);
+const screenController = new ScreenController(
+  apiKeyWeather,
+  userInfo,
+  loadingAnimation
+);

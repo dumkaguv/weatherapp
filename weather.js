@@ -20,13 +20,12 @@ export default class Weather {
     try {
       let response = await fetch(baseUrlWithEndPoints);
       if (!response.ok) {
-        console.log("HTTP ошибка: ", response.status);
         return;
       }
       let data = await response.json();
       this.weatherData.push(data);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   }
 

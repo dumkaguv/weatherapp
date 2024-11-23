@@ -253,6 +253,8 @@ body {
 
 .loading-element {
   position: relative;
+  pointer-events: none;
+  cursor: not-allowed;
 }
 
 .loading-dots {
@@ -285,7 +287,9 @@ body {
 }
 
 @keyframes bounce {
-  0%, 80%, 100% {
+  0%,
+  80%,
+  100% {
     transform: translateY(0);
   }
   40% {
